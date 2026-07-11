@@ -8,6 +8,7 @@ import { deleteAccount, signOut } from '@/features/auth/services/authService';
 import { exitGuestMode } from '@/features/auth/services/guestService';
 import { exportShiftsCsv } from '@/features/reports/services/exportService';
 import { useEmployers, useSemesterBreaks, useShifts } from '@/hooks/useCompliance';
+import { useTabBarLayout } from '@/hooks/useTabBarLayout';
 import { useIsGuest } from '@/hooks/useUser';
 import { useAuthStore } from '@/store';
 
@@ -54,10 +55,11 @@ export default function SettingsScreen() {
   };
 
   const shiftLabelCount = settings?.shiftSchedules?.length ?? 0;
+  const { scrollPaddingBottom } = useTabBarLayout();
 
   return (
     <ScreenContainer title="Settings">
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: scrollPaddingBottom }}>
         {isGuest && (
           <Text variant="bodySmall" style={styles.guestBanner}>
             Guest mode — data is stored on this device only and is not synced to the cloud.

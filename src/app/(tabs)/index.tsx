@@ -13,6 +13,7 @@ import {
 } from '@/components';
 import { useCompliance, useEmployers, useRuleProfile, useShifts, useUserContext, useViolatingShiftIds } from '@/hooks/useCompliance';
 import { useIncrementalReveal } from '@/hooks/useIncrementalReveal';
+import { useTabBarLayout } from '@/hooks/useTabBarLayout';
 import { findEarliestAvailableStart } from '@/rules/VisaRuleEngine';
 import { sortShiftsByStart } from '@/utils/shifts';
 
@@ -25,6 +26,8 @@ export default function DashboardScreen() {
   const violatingIds = useViolatingShiftIds();
   const [employerFilter, setEmployerFilter] = useState<string>('all');
   const [employerMenuOpen, setEmployerMenuOpen] = useState(false);
+
+  const { scrollPaddingBottom } = useTabBarLayout();
 
   const employerMap = Object.fromEntries(employers.map((e) => [e.id, e]));
 
@@ -72,7 +75,7 @@ export default function DashboardScreen() {
 
   return (
     <ScreenContainer title="Dashboard">
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: scrollPaddingBottom }}>
         <ComplianceIndicator
           status={compliance.status}
           currentHours={compliance.projectedHours}

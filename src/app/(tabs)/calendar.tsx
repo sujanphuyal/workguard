@@ -15,6 +15,7 @@ import {
   useShifts,
   useViolatingShiftIds,
 } from '@/hooks/useCompliance';
+import { useTabBarLayout } from '@/hooks/useTabBarLayout';
 import type { AppTheme } from '@/theme';
 import { spacing } from '@/theme/tokens';
 import { formatHours } from '@/utils/time';
@@ -27,6 +28,8 @@ export default function CalendarScreen() {
   const { data: shifts = [] } = useShifts();
   const { data: employers = [] } = useEmployers();
   const violatingIds = useViolatingShiftIds();
+
+  const { scrollPaddingBottom } = useTabBarLayout();
 
   const scheduled = useScheduledShifts(shifts);
   const shiftsByDay = useShiftsByDay(scheduled);
@@ -46,7 +49,7 @@ export default function CalendarScreen() {
 
   return (
     <ScreenContainer title="Calendar">
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: scrollPaddingBottom }]}>
         <Text variant="bodySmall" style={[styles.gap, { color: theme.colors.onSurfaceVariant }]}>
           {scheduled.length} scheduled shift{scheduled.length === 1 ? '' : 's'} tracked
         </Text>

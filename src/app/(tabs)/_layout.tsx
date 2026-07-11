@@ -1,13 +1,14 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
+import { TAB_BAR_CONTENT_HEIGHT, useTabBarLayout } from '@/hooks/useTabBarLayout';
 import type { AppTheme } from '@/theme';
-import { spacing } from '@/theme/tokens';
 
 export default function TabLayout() {
   const theme = useTheme<AppTheme>();
+  const { bottomInset, paddingTop, paddingBottom } = useTabBarLayout();
 
   return (
     <Tabs
@@ -19,9 +20,9 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.surfaceVariant,
           borderTopWidth: StyleSheet.hairlineWidth,
-          height: Platform.OS === 'ios' ? 88 : 64,
-          paddingTop: spacing.xs,
-          paddingBottom: Platform.OS === 'ios' ? 28 : spacing.xs,
+          height: TAB_BAR_CONTENT_HEIGHT + bottomInset,
+          paddingTop,
+          paddingBottom,
           elevation: 3,
         },
         tabBarLabelStyle: styles.tabLabel,

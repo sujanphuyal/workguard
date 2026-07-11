@@ -7,6 +7,7 @@ import { EmptyState, ScreenContainer, ShiftCard, ShowMoreButton } from '@/compon
 import { ShiftRangeFilter } from '@/features/shifts/components/ShiftRangeFilter';
 import { useEmployers, useShifts, useViolatingShiftIds } from '@/hooks/useCompliance';
 import { useIncrementalReveal } from '@/hooks/useIncrementalReveal';
+import { useTabBarLayout } from '@/hooks/useTabBarLayout';
 import {
   filterShiftsInRange,
   resolveShiftRange,
@@ -46,6 +47,8 @@ export default function ShiftsScreen() {
   const { visibleItems, remaining, hasMore, canShowLess, showMore, showLess } =
     useIncrementalReveal(filtered, resetKey);
 
+  const { fabBottom, scrollPaddingBottom } = useTabBarLayout();
+
   const handlePresetChange = (preset: ShiftRangePreset) => {
     setRangePreset(preset);
   };
@@ -76,6 +79,7 @@ export default function ShiftsScreen() {
             data={visibleItems}
             onRefresh={refetch}
             refreshing={false}
+            contentContainerStyle={{ paddingBottom: scrollPaddingBottom }}
             renderItem={({ item }) => (
               <ShiftCard
                 shift={item}
@@ -99,7 +103,11 @@ export default function ShiftsScreen() {
           />
         </View>
       )}
-      <FAB icon="plus" style={styles.fab} onPress={() => router.push('/shift/new')} />
+      <FAB
+        icon="plus"
+        style={[styles.fab, { bottom: fabBottom }]}
+        onPress={() => router.push('/shift/new')}
+      />
     </ScreenContainer>
   );
 }
@@ -107,5 +115,5 @@ export default function ShiftsScreen() {
 const styles = StyleSheet.create({
   search: { marginBottom: 8 },
   list: { flex: 1 },
-  fab: { position: 'absolute', right: 16, bottom: 16 },
+  fab: { position: 'absolute', right: 16 },
 });

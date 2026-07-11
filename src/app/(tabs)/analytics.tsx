@@ -6,6 +6,7 @@ import { ScreenContainer } from '@/components';
 import { RosterImpactPlanner } from '@/features/analytics/components/RosterImpactPlanner';
 import { ShiftRangeFilter } from '@/features/shifts/components/ShiftRangeFilter';
 import { useEmployers, useShifts } from '@/hooks/useCompliance';
+import { useTabBarLayout } from '@/hooks/useTabBarLayout';
 import type { AppTheme } from '@/theme';
 import { spacing } from '@/theme/tokens';
 import {
@@ -26,6 +27,8 @@ export default function AnalyticsScreen() {
   const [employerFilter, setEmployerFilter] = useState('all');
   const [employerMenuOpen, setEmployerMenuOpen] = useState(false);
 
+  const { scrollPaddingBottom } = useTabBarLayout();
+
   const employerMap = Object.fromEntries(employers.map((e) => [e.id, e]));
 
   const workedShifts = useMemo(() => {
@@ -45,7 +48,7 @@ export default function AnalyticsScreen() {
 
   return (
     <ScreenContainer title="Analytics">
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView contentContainerStyle={[styles.content, { paddingBottom: scrollPaddingBottom }]}>
         <Card mode="elevated" style={styles.card}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.cardHeader}>
