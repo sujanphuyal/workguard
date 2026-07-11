@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "workguard",
+    "name": "WorkGuard",
     "slug": "workguard",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,16 +8,33 @@
     "scheme": "workguard",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.workguard.app"
     },
     "android": {
+      "package": "com.workguard.app",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "autoVerify": true,
+          "data": [
+            {
+              "scheme": "workguard"
+            }
+          ],
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
+        }
+      ],
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "softwareKeyboardLayoutMode": "resize"
     },
     "web": {
       "bundler": "metro",
@@ -30,11 +47,30 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
+          "imageWidth": 280,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#ffffff",
+          "dark": {
+            "image": "./assets/images/splash-icon-dark.png",
+            "backgroundColor": "#000000"
+          }
         }
-      ]
+      ],
+      "expo-secure-store",
+      "expo-sqlite",
+      "expo-sharing",
+      "@react-native-community/datetimepicker",
+      "expo-localization",
+      "expo-notifications"
     ],
+    "extra": {
+      "supabaseUrl": "",
+      "supabaseAnonKey": "",
+      "router": {},
+      "eas": {
+        "projectId": "f86d1fa7-9d83-46be-b967-2b8701344ead"
+      }
+    },
     "experiments": {
       "typedRoutes": true
     }

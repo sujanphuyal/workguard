@@ -1,0 +1,2 @@
+ALTER TABLE settings
+  ADD COLUMN IF NOT EXISTS shift_schedules TEXT NOT NULL DEFAULT '[]';

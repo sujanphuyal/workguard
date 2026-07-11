@@ -1,0 +1,2 @@
+ALTER TABLE settings
+  ADD COLUMN IF NOT EXISTS max_hours INTEGER NOT NULL DEFAULT 48 CHECK (max_hours > 0);

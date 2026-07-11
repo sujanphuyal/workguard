@@ -1,0 +1,4 @@
+appId: com.workguard.app
+---
+- launchApp
+- tapOn: "Sign In"
