@@ -2,7 +2,7 @@
   <img src="assets/images/logo.png" alt="WorkGuard" width="160" />
 </p>
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://appetize.io/embed/b_xmhkdkiaz6tapxfxi6du322jtq)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge)](https://appetize.io/app/b_xw3ikgexqjqybjkabvmncocx64)
 
 # WorkGuard
 

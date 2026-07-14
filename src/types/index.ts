@@ -10,7 +10,17 @@ export type ComplianceStatus = 'compliant' | 'warning' | 'violation';
 
 export type ThemePreference = 'system' | 'light' | 'dark';
 
-export type RecurrenceFrequency = 'weekly' | 'fortnightly' | 'monthly' | 'custom';
+export type RecurrenceFrequency =
+  | 'none'
+  | 'daily'
+  | 'weekly'
+  | 'fortnightly'
+  | 'monthly'
+  | 'yearly'
+  | 'custom';
+
+/** Minutes before shift start. `null` = no reminder. `0` = at time of event. */
+export type ReminderOptionMinutes = number | null;
 
 export interface DateRange {
   start: Date;
@@ -47,6 +57,8 @@ export interface Shift {
   breakMinutes: number;
   notes?: string;
   recurrenceGroupId?: string;
+  /** Minutes before start to remind. null/undefined = none; 0 = at event time */
+  reminderMinutes?: number | null;
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
@@ -154,7 +166,8 @@ export interface ShiftFilter {
 }
 
 export interface RecurrenceConfig {
-  frequency: RecurrenceFrequency;
+  frequency: Exclude<RecurrenceFrequency, 'none'>;
+  /** For custom: days between occurrences. For others: multiplier (usually 1). */
   interval: number;
   endDate: Date;
   occurrences?: number;

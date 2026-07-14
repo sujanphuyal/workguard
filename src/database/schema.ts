@@ -1,6 +1,6 @@
 import type { SQLiteDatabase } from 'expo-sqlite';
 
-export const SCHEMA_VERSION = 4;
+export const SCHEMA_VERSION = 5;
 
 export const CREATE_TABLES_SQL = `
 PRAGMA journal_mode = WAL;
@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS work_shifts (
   break_minutes INTEGER NOT NULL DEFAULT 0,
   notes TEXT,
   recurrence_group_id TEXT,
+  reminder_minutes INTEGER,
   deleted_at TEXT,
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL,
@@ -123,6 +124,10 @@ export function runMigrations(db: SQLiteDatabase): void {
 
   if (version < 4 && !columnExists(db, 'settings', 'shift_schedules')) {
     db.execSync("ALTER TABLE settings ADD COLUMN shift_schedules TEXT NOT NULL DEFAULT '[]'");
+  }
+
+  if (version < 5 && !columnExists(db, 'work_shifts', 'reminder_minutes')) {
+    db.execSync('ALTER TABLE work_shifts ADD COLUMN reminder_minutes INTEGER');
   }
 
   if (version < SCHEMA_VERSION) {

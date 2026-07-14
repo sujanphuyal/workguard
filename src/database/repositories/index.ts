@@ -96,8 +96,8 @@ export class ShiftRepository {
     const data = mapShiftToDb(shift);
     db.runSync(
       `INSERT OR REPLACE INTO work_shifts
-       (id, user_id, employer_id, status, start_time, end_time, duration_minutes, break_minutes, notes, recurrence_group_id, deleted_at, created_at, updated_at, sync_status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (id, user_id, employer_id, status, start_time, end_time, duration_minutes, break_minutes, notes, recurrence_group_id, reminder_minutes, deleted_at, created_at, updated_at, sync_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       data.id as string,
       data.user_id as string,
       data.employer_id as string,
@@ -108,6 +108,7 @@ export class ShiftRepository {
       (data.break_minutes as number) ?? 0,
       data.notes as string | null,
       data.recurrence_group_id as string | null,
+      data.reminder_minutes as number | null,
       data.deleted_at as string | null,
       data.created_at as string,
       data.updated_at as string,

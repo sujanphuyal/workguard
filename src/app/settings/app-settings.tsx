@@ -186,6 +186,27 @@ export default function AppSettingsScreen() {
         </View>
 
         <Text variant="labelMedium" style={styles.label}>
+          Warning threshold ({warningPercentage}%)
+        </Text>
+        <Text variant="bodySmall" style={styles.hint}>
+          Show a warning when projected hours exceed this percentage of your fortnightly limit.
+        </Text>
+        <SegmentedButtons
+          value={String(warningPercentage)}
+          onValueChange={(v) => {
+            const next = Number(v);
+            setWarningPercentage(next);
+            applySettingsPreview({ warningPercentage: next });
+          }}
+          buttons={[
+            { value: '70', label: '70%' },
+            { value: '80', label: '80%' },
+            { value: '90', label: '90%' },
+          ]}
+          style={styles.field}
+        />
+
+        <Text variant="labelMedium" style={styles.label}>
           Theme
         </Text>
         <SegmentedButtons
@@ -196,23 +217,6 @@ export default function AppSettingsScreen() {
             applySettingsPreview({ theme: next });
           }}
           buttons={THEME_OPTIONS.map((o) => ({ value: o.value, label: o.label }))}
-          style={styles.field}
-        />
-
-        <Text variant="labelMedium" style={styles.label}>
-          Warning threshold ({warningPercentage}%)
-        </Text>
-        <Text variant="bodySmall" style={styles.hint}>
-          Show a warning when projected hours exceed this percentage of your fortnightly limit.
-        </Text>
-        <SegmentedButtons
-          value={String(warningPercentage)}
-          onValueChange={(v) => setWarningPercentage(Number(v))}
-          buttons={[
-            { value: '70', label: '70%' },
-            { value: '80', label: '80%' },
-            { value: '90', label: '90%' },
-          ]}
           style={styles.field}
         />
 

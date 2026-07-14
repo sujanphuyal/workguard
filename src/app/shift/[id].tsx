@@ -27,7 +27,8 @@ export default function ShiftDetailScreen() {
 
   const handleSave = (data: ShiftFormData) => {
     try {
-      shiftService.update(shift, data, shifts, context);
+      const { recurrence, ...input } = data;
+      shiftService.updateWithRepeat(shift, input, recurrence ?? null, shifts, context);
       refetch();
       router.back();
     } catch (e) {
@@ -41,16 +42,6 @@ export default function ShiftDetailScreen() {
     router.back();
   };
 
-  const handleDuplicate = () => {
-    try {
-      shiftService.duplicate(shift, shifts, context);
-      refetch();
-      router.back();
-    } catch (e) {
-      alert(e instanceof Error ? e.message : 'Failed to duplicate shift');
-    }
-  };
-
   return (
     <View style={styles.wrapper}>
       <ShiftForm
@@ -60,10 +51,12 @@ export default function ShiftDetailScreen() {
         onSubmit={handleSave}
       />
       <View style={styles.actions}>
-        <Button mode="outlined" onPress={handleDuplicate} style={styles.btn}>
-          Duplicate
-        </Button>
-        <Button mode="contained-tonal" textColor={theme.colors.error} onPress={handleDelete} style={styles.btn}>
+        <Button
+          mode="contained-tonal"
+          textColor={theme.colors.error}
+          onPress={handleDelete}
+          style={styles.btn}
+        >
           Delete
         </Button>
       </View>

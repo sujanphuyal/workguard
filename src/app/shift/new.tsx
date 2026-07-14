@@ -31,7 +31,8 @@ export default function NewShiftScreen() {
 
   const onSubmit = (data: ShiftFormData) => {
     try {
-      shiftService.create(userId, data, shifts, context);
+      const { recurrence, ...input } = data;
+      shiftService.createWithRepeat(userId, input, recurrence ?? null, shifts, context);
       refetch();
       router.back();
     } catch (e) {

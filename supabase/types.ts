@@ -65,6 +65,7 @@ export type Database = {
           break_minutes: number;
           notes: string | null;
           recurrence_group_id: string | null;
+          reminder_minutes: number | null;
           deleted_at: string | null;
           created_at: string;
           updated_at: string;

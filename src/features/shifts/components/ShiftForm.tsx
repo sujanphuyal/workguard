@@ -22,13 +22,25 @@ import {
   ShiftSchedulePresetPicker,
   applyShiftSchedulePreset,
 } from '@/features/shifts/components/ShiftSchedulePresetPicker';
+import {
+  ShiftRepeatReminderFields,
+  buildDefaultRepeatReminder,
+  toRecurrenceConfig,
+  type RepeatReminderValue,
+} from '@/features/shifts/components/ShiftRepeatReminderFields';
 import { filterShiftSchedulesForEmployer } from '@/features/settings/services/shiftSchedulePresets';
 
 import type { AppTheme } from '@/theme';
 
 import { spacing } from '@/theme/tokens';
 
-import type { Employer, Shift, ShiftSchedulePreset, ShiftStatus } from '@/types';
+import type {
+  Employer,
+  RecurrenceConfig,
+  Shift,
+  ShiftSchedulePreset,
+  ShiftStatus,
+} from '@/types';
 
 import { useAuthStore } from '@/store';
 
@@ -81,6 +93,10 @@ export type ShiftFormData = {
   breakMinutes: number;
 
   notes?: string;
+
+  reminderMinutes?: number | null;
+
+  recurrence?: RecurrenceConfig | null;
 
 };
 
@@ -178,6 +194,10 @@ export function ShiftForm({ employers, initialShift, submitLabel, onSubmit }: Sh
 
   const applyingPresetRef = useRef(false);
 
+  const [repeatReminder, setRepeatReminder] = useState<RepeatReminderValue>(() =>
+    buildDefaultRepeatReminder(initialShift?.startTime),
+  );
+
 
 
   const {
@@ -209,6 +229,11 @@ export function ShiftForm({ employers, initialShift, submitLabel, onSubmit }: Sh
     if (initialShift) {
 
       reset(buildDefaults(initialShift));
+
+      setRepeatReminder({
+        ...buildDefaultRepeatReminder(initialShift.startTime),
+        reminderMinutes: initialShift.reminderMinutes ?? null,
+      });
 
     }
 
@@ -352,6 +377,10 @@ export function ShiftForm({ employers, initialShift, submitLabel, onSubmit }: Sh
       breakMinutes: values.breakMinutes ?? DEFAULT_BREAK_MINUTES,
 
       notes: values.notes,
+
+      reminderMinutes: repeatReminder.reminderMinutes,
+
+      recurrence: toRecurrenceConfig(repeatReminder),
 
     });
 
@@ -640,6 +669,15 @@ export function ShiftForm({ employers, initialShift, submitLabel, onSubmit }: Sh
             Worked hours: {workedPreview}h (break time is not counted)
 
           </Text>
+
+          <Divider style={styles.divider} />
+
+          <ShiftRepeatReminderFields
+            shiftStart={startTime}
+            value={repeatReminder}
+            onChange={setRepeatReminder}
+            showRepeat
+          />
 
 
 
